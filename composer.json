@@ -1,0 +1,37 @@
+{
+    "name": "mass6/flexible-dto",
+    "description": "Data transfer object with validation and value casting",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mass6\\FlexibleDTO\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mass6\\FlexibleDTO\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mass6",
+            "email": "samcharmy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "illuminate/support": "^8",
+        "illuminate/filesystem": "^8",
+        "illuminate/translation": "^8",
+        "illuminate/validation": "^8"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.1",
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^5"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --testdox"
+    }
+}
