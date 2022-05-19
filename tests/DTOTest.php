@@ -26,7 +26,7 @@ class DTOTest extends TestCase
     public function it_constructs_a_dto_from_parameters()
     {
         $dto = new DefaultDTO('Luca', 'Brasi', 'Luca Brasi', 44);
-        $this->assertInstanceOf(DataTransferObject::class,$dto);
+        $this->assertInstanceOf(DataTransferObject::class, $dto);
         $this->assertEquals([
             'first_name' => 'Luca',
             'last_name' => 'Brasi',
@@ -79,10 +79,10 @@ class DTOTest extends TestCase
         ];
         $dto = new DefaultDTO($data);
         $this->assertEquals([
-                'first_name' => 'Luca',
-                'last_name' => 'Brasi',
-                'fullName' => null,
-                'age' => null,
+            'first_name' => 'Luca',
+            'last_name' => 'Brasi',
+            'fullName' => null,
+            'age' => null,
         ], $dto->getData());
     }
 

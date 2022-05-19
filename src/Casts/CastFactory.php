@@ -20,9 +20,9 @@ class CastFactory
     }
 
     /**
-     * @param string      $property
-     * @param             $value
-     * @param string|null $type
+     * @param  string  $property
+     * @param  $value
+     * @param  string|null  $type
      * @return Carbon|mixed
      */
     protected static function getCast(string $property, $value, ?string $type)
@@ -48,9 +48,9 @@ class CastFactory
     }
 
     /**
-     * @param string $property
-     * @param        $type
-     * @param        $value
+     * @param  string  $property
+     * @param  $type
+     * @param  $value
      * @return mixed
      */
     protected static function getCustomCast(string $property, $type, $value)
@@ -72,7 +72,7 @@ class CastFactory
     {
         try {
             return Carbon::parse($value);
-        } catch (InvalidFormatException | Exception $e) {
+        } catch (InvalidFormatException|Exception $e) {
             throw new InvalidArgumentException(sprintf('The provided %s value of `%s` is not a valid date format.', $property, $value));
         }
     }
@@ -81,14 +81,14 @@ class CastFactory
     {
         try {
             return Collection::make($array);
-        } catch (InvalidFormatException | Exception $e) {
+        } catch (InvalidFormatException|Exception $e) {
             self::throwExceptionMessage($property, 'array');
         }
     }
 
     /**
-     * @param string $property
-     * @param        $value
+     * @param  string  $property
+     * @param  $value
      * @return array
      */
     protected static function castToArray(string $property, $value): array

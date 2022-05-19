@@ -10,9 +10,7 @@ use Mass6\FlexibleDTO\Casts\CastFactory;
 use Mass6\FlexibleDTO\Validation\ValidatesProperties;
 
 /**
- * Class DataTransferObject
- *
- * @package Mass6\FlexibleDTO
+ * Class DataTransferObject.
  */
 abstract class DataTransferObject
 {
@@ -61,7 +59,7 @@ abstract class DataTransferObject
      */
     protected function initializeDataWithNullValues(): void
     {
-        $this->data = Collection::make($this->allowedProperties())->mapWithKeys(fn($value) => [$value => null])->toArray();
+        $this->data = Collection::make($this->allowedProperties())->mapWithKeys(fn ($value) => [$value => null])->toArray();
     }
 
     /**
@@ -72,8 +70,8 @@ abstract class DataTransferObject
     /**
      * Set the data properties from cosntructor input.
      *
-     * @param mixed $data
-     * @param array $args
+     * @param  mixed  $data
+     * @param  array  $args
      */
     protected function setPropertyValuesFromInput($data, array $args)
     {
@@ -87,7 +85,7 @@ abstract class DataTransferObject
     /**
      * Use the provided array or collection to set the property values.
      *
-     * @param array $data
+     * @param  array  $data
      */
     protected function setPropertiesFromIterable(iterable $data)
     {
@@ -99,8 +97,8 @@ abstract class DataTransferObject
     /**
      * Cast a whitelisted property value, cast to the specific type if specified.
      *
-     * @param string $propertyName
-     * @param mixed  $value
+     * @param  string  $propertyName
+     * @param  mixed  $value
      */
     protected function setProperty(string $propertyName, $value): void
     {
@@ -130,7 +128,7 @@ abstract class DataTransferObject
         });
 
         if (! $property && ! $this->ignoreNonPermittedProperties) {
-            throw new InvalidArgumentException($name . ' is not an allowed property.');
+            throw new InvalidArgumentException($name.' is not an allowed property.');
         }
 
         return $property;
@@ -140,7 +138,7 @@ abstract class DataTransferObject
      * Use the individual constructor parameters to set the property values. Properties will be matched
      * to parameter values based on the order they are listed in the "allowedProperties" method.
      *
-     * @param array $arguments
+     * @param  array  $arguments
      */
     protected function setDataFromArguments(array $arguments)
     {
@@ -163,14 +161,14 @@ abstract class DataTransferObject
      * Returns the full list of property values, previously casted to their appropriate types. Will proxy
      * calls to individual property getters if set.
      *
-     * @param bool $omitNullProperties
+     * @param  bool  $omitNullProperties
      * @return array
      */
     public function getData(bool $omitNullProperties = false): array
     {
         return collect(array_keys($this->data))->mapWithKeys(function ($property) {
             return [$property => $this->$property()];
-        })->when($omitNullProperties, function($data) {
+        })->when($omitNullProperties, function ($data) {
             return $data->filter();
         })->toArray();
     }
@@ -206,11 +204,11 @@ abstract class DataTransferObject
     {
         if (method_exists($this, $name)) {
             return $this->{$name}();
-        } else if (method_exists($this, Str::camel($name))) {
+        } elseif (method_exists($this, Str::camel($name))) {
             return $this->{Str::camel($name)}();
-        } else if (property_exists($this, $name)) {
+        } elseif (property_exists($this, $name)) {
             return $this->{$name};
-        } else if (substr($name, 0, 3) === 'get') {
+        } elseif (substr($name, 0, 3) === 'get') {
             $property = Str::camel(substr($name, 3));
 
             return $this->{$property};
@@ -228,13 +226,13 @@ abstract class DataTransferObject
     {
         if (array_key_exists($property, $this->data)) {
             return $this->getCastedValue($property);
-        } else if (array_key_exists(Str::snake($property), $this->data)) {
+        } elseif (array_key_exists(Str::snake($property), $this->data)) {
             return $this->getCastedValue(Str::snake($property));
-        } else if (array_key_exists(Str::camel($property), $this->data)) {
+        } elseif (array_key_exists(Str::camel($property), $this->data)) {
             return $this->getCastedValue(Str::camel($property));
         } else {
             if (! in_array($property, $this->allowedProperties())) {
-                throw new InvalidArgumentException($property . ' is not a valid property.');
+                throw new InvalidArgumentException($property.' is not a valid property.');
             }
         }
     }
@@ -242,12 +240,12 @@ abstract class DataTransferObject
     /**
      * Returns a property value to its designated cast type.
      *
-     * @param string $property
+     * @param  string  $property
      * @return array|\Carbon\Carbon|\Illuminate\Support\Collection|mixed|string|null
      */
     protected function getCastedValue(string $property)
     {
-        $value =  $this->data[$property];
+        $value = $this->data[$property];
 
         return $this->castValue($property, $value, $this->casts[$property] ?? null);
     }
@@ -255,9 +253,9 @@ abstract class DataTransferObject
     /**
      * Casts a property value to a designated type.
      *
-     * @param string $property
-     * @param        $value
-     * @param null   $type
+     * @param  string  $property
+     * @param  $value
+     * @param  null  $type
      * @return array|\Carbon\Carbon|\Illuminate\Support\Collection|mixed|string|null
      */
     protected function castValue(string $property, $value, $type = null)
@@ -268,7 +266,7 @@ abstract class DataTransferObject
     /**
      * Handles validation if trait is present on DTO.
      *
-     * @param iterable $data
+     * @param  iterable  $data
      */
     protected function handleValidation(iterable $data)
     {

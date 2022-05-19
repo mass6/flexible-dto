@@ -12,7 +12,7 @@ class DefaultDTO extends DataTransferObject
             'first_name',
             'last_name',
             'fullName',
-            'age'
+            'age',
         ];
     }
 }

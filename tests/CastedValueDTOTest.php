@@ -60,7 +60,7 @@ class CastedValueDTOTest extends TestCase
     /** @test */
     public function it_can_cast_an_object_property_value_to_an_array()
     {
-        $characters  = [
+        $characters = [
             'Don Corleone',
             'Michael Corleone',
         ];

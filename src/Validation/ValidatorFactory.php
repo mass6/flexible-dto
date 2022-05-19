@@ -3,10 +3,10 @@
 namespace Mass6\FlexibleDTO\Validation;
 
 use Illuminate\Contracts\Validation\Factory;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation;
-use Illuminate\Filesystem\Filesystem;
 
 class ValidatorFactory
 {
@@ -20,7 +20,7 @@ class ValidatorFactory
     protected function loadTranslator()
     {
         $filesystem = new Filesystem();
-        $loader     = new FileLoader($filesystem, dirname(dirname(__FILE__)).'/lang');
+        $loader = new FileLoader($filesystem, dirname(dirname(__FILE__)).'/lang');
         $loader->addNamespace('lang', dirname(dirname(__FILE__)).'/lang');
         $loader->load('en', 'validation', 'lang');
 

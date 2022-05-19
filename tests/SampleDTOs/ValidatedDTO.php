@@ -2,8 +2,8 @@
 
 namespace Mass6\FlexibleDTO\Tests\SampleDTOs;
 
-use Mass6\FlexibleDTO\Validation\ValidatesProperties;
 use Mass6\FlexibleDTO\DataTransferObject;
+use Mass6\FlexibleDTO\Validation\ValidatesProperties;
 
 class ValidatedDTO extends DataTransferObject
 {
@@ -20,7 +20,7 @@ class ValidatedDTO extends DataTransferObject
     public function getRules(): array
     {
         return [
-            'title' => 'required'
+            'title' => 'required',
         ];
     }
 
@@ -32,5 +32,4 @@ class ValidatedDTO extends DataTransferObject
             }
         });
     }
-
 }

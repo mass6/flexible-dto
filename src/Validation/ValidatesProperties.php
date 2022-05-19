@@ -5,7 +5,6 @@ namespace Mass6\FlexibleDTO\Validation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
-use Mass6\FlexibleDTO\Validation\ValidatorFactory;
 
 trait ValidatesProperties
 {
@@ -19,7 +18,7 @@ trait ValidatesProperties
     /**
      * Validate the DTO property values.
      *
-     * @param iterable $data
+     * @param  iterable  $data
      */
     protected function validate(iterable $data)
     {
@@ -41,19 +40,19 @@ trait ValidatesProperties
 
     /**
      * Runs after validation hooks.
+     *
      * @link https://laravel.com/docs/9.x/validation#adding-after-hooks-to-form-requests
      *
-     * @param \Illuminate\Validation\Validator $validator
+     * @param  \Illuminate\Validation\Validator  $validator
      */
     protected function withValidator(\Illuminate\Validation\Validator $validator)
     {
-
     }
 
     /**
      * Prepares data for validation by ensuring it is in array form.
      *
-     * @param iterable $data
+     * @param  iterable  $data
      * @return array
      */
     protected function prepareData(iterable $data): array
