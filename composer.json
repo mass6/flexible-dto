@@ -20,16 +20,16 @@
         }
     ],
     "require": {
-        "php": "^7.4",
-        "illuminate/support": "^8",
-        "illuminate/filesystem": "^8",
-        "illuminate/translation": "^8",
-        "illuminate/validation": "^8"
+        "php": "^8",
+        "illuminate/support": "^9",
+        "illuminate/filesystem": "^9",
+        "illuminate/translation": "^9",
+        "illuminate/validation": "^9"
     },
     "require-dev": {
         "larapack/dd": "^1.1",
         "phpunit/phpunit": "^9.5",
-        "symfony/var-dumper": "^5"
+        "symfony/var-dumper": "^6"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox"
