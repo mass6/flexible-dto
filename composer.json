@@ -32,6 +32,6 @@
         "symfony/var-dumper": "^5"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit --testdox"
     }
 }
