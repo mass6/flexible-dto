@@ -32,7 +32,7 @@ class DTOTest extends TestCase
             'last_name' => 'Brasi',
             'fullName' => 'Luca Brasi',
             'age' => 44,
-        ], $dto->getData());
+        ], $dto->getAll());
     }
 
     /** @test */
@@ -55,7 +55,7 @@ class DTOTest extends TestCase
             'age' => 35,
         ];
         $dto = new DefaultDTO($data);
-        $this->assertEquals($data, $dto->getData());
+        $this->assertEquals($data, $dto->getAll());
     }
 
     /** @test */
@@ -83,15 +83,7 @@ class DTOTest extends TestCase
             'last_name' => 'Brasi',
             'fullName' => null,
             'age' => null,
-        ], $dto->getData());
-    }
-
-    /** @test */
-    public function it_can_returns_data_with_null_properties_omitted()
-    {
-        $data = ['first_name' => 'Luca'];
-        $dto = new DefaultDTO($data);
-        $this->assertEquals($data, $dto->getData(true));
+        ], $dto->getAll());
     }
 
     /** @test */
@@ -145,7 +137,7 @@ class DTOTest extends TestCase
         ];
         $nonPermitted = ['middle_name' => 'Carlo'];
         $dto = new IgnoreNonPermittedPropertiesDTO(array_merge($allowed, $nonPermitted));
-        $this->assertEquals($allowed, $dto->getData());
+        $this->assertEquals($allowed, $dto->getAll());
     }
 
     /** @test */
@@ -163,6 +155,6 @@ class DTOTest extends TestCase
             'lastName' => 'Brasi',
             'full name' => 'Luca Brasi',
             'age' => 35,
-        ], $dto->getData());
+        ], $dto->getAll());
     }
 }
