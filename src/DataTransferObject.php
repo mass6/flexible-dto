@@ -72,7 +72,7 @@ abstract class DataTransferObject
     public function getPopulated(): array
     {
         return collect($this->data)
-            ->map(fn($value, $property) => $this->$property())
+            ->map(fn ($value, $property) => $this->$property())
             ->toArray();
     }
 
@@ -200,7 +200,7 @@ abstract class DataTransferObject
             return $this->{Str::camel(substr($name, 3))};
         } elseif (property_exists($this, $name)) {
             return $this->{$name};
-        }  else {
+        } else {
             return $this->{$name};
         }
     }

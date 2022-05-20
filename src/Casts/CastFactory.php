@@ -65,8 +65,8 @@ class CastFactory
     }
 
     /**
-     * @param string $property
-     * @param        $value
+     * @param  string  $property
+     * @param  $value
      * @return Carbon
      */
     protected static function castToDate(string $property, $value): ?Carbon
