@@ -65,11 +65,16 @@ class CastFactory
     }
 
     /**
-     * @param $value
-     * @return \Carbon\Carbon
+     * @param  string  $property
+     * @param  $value
+     * @return Carbon
      */
-    protected static function castToDate(string $property, $value): Carbon
+    protected static function castToDate(string $property, $value): ?Carbon
     {
+        if (! $value) {
+            return $value;
+        }
+
         try {
             return Carbon::parse($value);
         } catch (InvalidFormatException|Exception $e) {
