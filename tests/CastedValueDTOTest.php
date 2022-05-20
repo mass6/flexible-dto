@@ -34,7 +34,8 @@ class CastedValueDTOTest extends TestCase
         $data = ['released_on' => 'invalid_date'];
         try {
             $dto = new CastedValueDTO($data);
-            $this->fail('DTO was constructed even though the date format is invalid.');
+            $dto->releasedOn();
+            $this->fail('Released on date was returned even though the date format is invalid.');
         } catch (InvalidArgumentException $e) {
             $this->assertEquals('The provided released_on value of `invalid_date` is not a valid date format.', $e->getMessage());
         }
@@ -96,7 +97,8 @@ class CastedValueDTOTest extends TestCase
         $data = ['dvd_year' => new DateTime()];
         try {
             $dto = new CastedValueDTO($data);
-            $this->fail('DTO was constructed even though the the dvd_year property could not be cast to string.');
+            $dto->dvdYear();
+            $this->fail('Dvd year was returned even though the property could not be cast to string.');
         } catch (InvalidArgumentException $e) {
             $this->assertEquals('The provided dvd_year value could not be cast to string.', $e->getMessage());
         }

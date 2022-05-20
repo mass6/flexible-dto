@@ -20,11 +20,6 @@ abstract class DataTransferObject
     protected array $data;
 
     /**
-     * The original data before cleansing..
-     */
-    protected array $original;
-
-    /**
      * Indicates if properties invalid properties should be silently ignored.
      *
      * @var bool
@@ -32,7 +27,7 @@ abstract class DataTransferObject
     protected bool $ignoreNonPermittedProperties = false;
 
     /**
-     * Indicates if properties should be case sensitive.
+     * Indicates if the properties should be case-sensitive.
      *
      * @var bool
      */
@@ -45,9 +40,14 @@ abstract class DataTransferObject
      */
     protected array $casts = [];
 
+    /**
+     * Return the whitelisted allowed properties.
+     */
+    abstract protected function allowedProperties(): array;
+
     public function __construct($data = null, ...$args)
     {
-        $this->initializeDataWithNullValues();
+        $this->data = [];
         if (isset($data)) {
             $this->setPropertyValuesFromInput($data, $args);
             $this->handleValidation($this->data);
@@ -55,20 +55,48 @@ abstract class DataTransferObject
     }
 
     /**
-     * Initialize data array by setting all the allowed properties to null.
+     * Returns the original input data.
+     *
+     * @return array
      */
-    protected function initializeDataWithNullValues(): void
+    public function getOriginal(): array
     {
-        $this->data = Collection::make($this->allowedProperties())->mapWithKeys(fn ($value) => [$value => null])->toArray();
+        return $this->data;
     }
 
     /**
-     * Return the whitelisted allowed properties.
+     * Returns only the properties populated, cast to their appropriate types.
+     *
+     * @return array
      */
-    abstract protected function allowedProperties(): array;
+    public function getPopulated(): array
+    {
+        return collect($this->data)
+            ->map(fn($value, $property) => $this->$property())
+            ->toArray();
+    }
 
     /**
-     * Set the data properties from cosntructor input.
+     * Returns the full list of property values, cast to their appropriate types.
+     * Proxies call to individual property getters if set.
+     *
+     * @return array
+     */
+    public function getAll(): array
+    {
+        return array_merge($this->initializePropertiesValues(), $this->getPopulated());
+    }
+
+    /**
+     * Initialize data array by setting all the allowed properties to null.
+     */
+    protected function initializePropertiesValues(): array
+    {
+        return Collection::make($this->allowedProperties())->mapWithKeys(fn ($value) => [$value => null])->toArray();
+    }
+
+    /**
+     * Set the data properties from constructor input.
      *
      * @param  mixed  $data
      * @param  array  $args
@@ -105,10 +133,29 @@ abstract class DataTransferObject
         $property = $this->getWhitelistedProperty($propertyName);
 
         if ($property) {
-            $this->original[$property] = $value;
-            $this->data[$property] = CastFactory::make($property, $value, $this->casts[$property] ?? null);
-            $this->data[$property] = $this->castValue($property, $value, $this->casts[$property] ?? null);
+            $this->data[$property] = $value;
         }
+    }
+
+    /**
+     * Use the individual constructor parameters to set the property values. Properties will be matched
+     * to parameter values based on the order they are listed in the "allowedProperties" method.
+     *
+     * @param  array  $arguments
+     */
+    protected function setDataFromArguments(array $arguments)
+    {
+        $allowedProperties = $this->allowedProperties();
+        $allowedPropertiesCount = count($allowedProperties);
+        $argumentsCount = count($arguments);
+        $max = $argumentsCount <= $allowedPropertiesCount ? $argumentsCount : $allowedPropertiesCount;
+
+        $data = [];
+        for ($i = 0; $i < $max; $i++) {
+            $data[$allowedProperties[$i]] = $arguments[$i];
+        }
+
+        $this->data = $data;
     }
 
     /**
@@ -135,65 +182,6 @@ abstract class DataTransferObject
     }
 
     /**
-     * Use the individual constructor parameters to set the property values. Properties will be matched
-     * to parameter values based on the order they are listed in the "allowedProperties" method.
-     *
-     * @param  array  $arguments
-     */
-    protected function setDataFromArguments(array $arguments)
-    {
-        $this->original = $arguments;
-
-        $allowedProperties = $this->allowedProperties();
-        $allowedPropertiesCount = count($allowedProperties);
-        $argumentsCount = count($arguments);
-        $max = $argumentsCount <= $allowedPropertiesCount ? $argumentsCount : $allowedPropertiesCount;
-
-        $data = [];
-        for ($i = 0; $i < $max; $i++) {
-            $data[$allowedProperties[$i]] = $this->castValue($allowedProperties[$i], $arguments[$i], $this->casts[$allowedProperties[$i]] ?? null);
-        }
-
-        $this->data = array_merge($this->data, $data);
-    }
-
-    /**
-     * Returns the full list of property values, previously casted to their appropriate types. Will proxy
-     * calls to individual property getters if set.
-     *
-     * @param  bool  $omitNullProperties
-     * @return array
-     */
-    public function getData(bool $omitNullProperties = false): array
-    {
-        return collect(array_keys($this->data))->mapWithKeys(function ($property) {
-            return [$property => $this->$property()];
-        })->when($omitNullProperties, function ($data) {
-            return $data->filter();
-        })->toArray();
-    }
-
-    /**
-     * Returns the input data, before any cleansing or casting.
-     *
-     * @return array
-     */
-    public function getOriginal(): array
-    {
-        return $this->original;
-    }
-
-    /**
-     * Returns the raw data array.
-     *
-     * @return array
-     */
-    public function getRaw(): array
-    {
-        return $this->data;
-    }
-
-    /**
      * Proxies call to a property getter method.
      *
      * @param $name
@@ -206,13 +194,13 @@ abstract class DataTransferObject
             return $this->{$name}();
         } elseif (method_exists($this, Str::camel($name))) {
             return $this->{Str::camel($name)}();
+        } elseif (method_exists($this, 'get'.Str::camel($name))) {
+            return $this->{'get'.Str::camel($name)}();
+        } elseif (substr($name, 0, 3) === 'get') {
+            return $this->{Str::camel(substr($name, 3))};
         } elseif (property_exists($this, $name)) {
             return $this->{$name};
-        } elseif (substr($name, 0, 3) === 'get') {
-            $property = Str::camel(substr($name, 3));
-
-            return $this->{$property};
-        } else {
+        }  else {
             return $this->{$name};
         }
     }
