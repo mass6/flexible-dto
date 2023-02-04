@@ -34,6 +34,9 @@ class CastFactory
             case 'int':
             case 'integer':
                 return filter_var($value, FILTER_VALIDATE_INT);
+            case 'double':
+            case 'float':
+                return filter_var($value, FILTER_VALIDATE_FLOAT);
             case 'string':
                 return self::castToString($property, $value);
             case 'array':

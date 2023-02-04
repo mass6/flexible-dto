@@ -117,3 +117,188 @@ Returns the original input data before any casting or validation.
 $myDTO = new MyDTO('The Matrix', '1999-03-31');
 $myDTO->getOriginal(); // ['movie' => 'The Matrix', 'releaseDate' => '1999-03-31']
 ```
+
+## Validation
+Validation is performed on the input data before it is cast to the appropriate types. To make your DTO self-validating, 
+you must use the `Mass6\FlexibleDTO\Validation\ValidatesProperties` trait in your DTO class. If validation fails, 
+an `Illuminate\Validation\ValidationException` will be thrown.
+
+### Validation Rules
+Validation rules are defined in the `getRules()` method. This method should return an array of rules, 
+where the key is the name of the property and the value is the validation rule. Validation rules are defined 
+using [Laravel validation rules](https://laravel.com/docs/9.x/validation).
+
+```php
+use Mass6\FlexibleDTO\DTO;
+use Mass6\FlexibleDTO\Validation\ValidatesProperties;
+
+class MyDTO extends DataTransferObject
+{
+    use ValidatesProperties;
+    
+    protected function allowedProperties(): array
+    {
+        return [
+            'movie',
+            'releaseDate',
+            'rating',
+        ];
+    }
+
+    protected function getRules(): array
+    {
+        return [
+            'movie' => 'required|string',
+            'releaseDate' => 'required|date',
+            'rating' => 'required|numeric',
+        ];
+    }
+}
+```
+
+### Custom Validation Messages
+Custom validation messages can be defined in the `getMessages()` method. This method should return an array of messages, 
+where the key is the name of the property and the value is the validation message. Messages are defined using
+[Laravel validation messages](https://laravel.com/docs/9.x/validation#customizing-the-error-messages) syntax.
+
+```php
+use Mass6\FlexibleDTO\DTO;
+use Mass6\FlexibleDTO\Validation\ValidatesProperties;
+
+class MyDTO extends DataTransferObject
+{
+    use ValidatesProperties;
+       
+    protected function allowedProperties(): array
+    {
+        return [
+            'movie',
+            'releaseDate',
+            'rating',
+        ];
+    }
+
+    protected function getRules(): array
+    {
+        return [
+            'movie' => 'required|string',
+            'releaseDate' => 'required|date',
+            'rating' => 'required|numeric',
+        ];
+    }
+
+    protected function getMessages(): array
+    {
+        return [
+            'movie.required' => 'The movie title is required.',
+            'releaseDate.required' => 'The release date is required.',
+            'rating.required' => 'The rating is required.',
+        ];
+    }
+}
+```
+
+## Casting
+Casting is performed on the input data after it has been validated. The `$cast` property is used to define the 
+casting rules, where the key is the name of the property and the value is the casting rule.
+```php
+use Mass6\FlexibleDTO\DTO;
+
+class MyDTO extends DataTransferObject
+{
+    protected $casts = [
+        'movie' => 'string',
+        'releaseDate' => 'date',
+        'rating' => 'float',
+    ];
+    
+    protected function allowedProperties(): array
+    {
+        return [
+            'movie',
+            'releaseDate',
+            'rating',
+        ];
+    }    
+}
+```
+
+### Casting Rules
+The following casting rules are available.
+
+#### `array`
+Casts the value to an array.
+
+#### `bool`, `boolean`
+Casts the value to a boolean.
+
+#### `collection`
+Casts the value to an `Illuminate\Support\Collection`.
+
+#### `date`
+Casts the value to a `Carbon\Carbon` instance.
+
+#### `double`
+Casts the value to a double.
+
+#### `float`
+Casts the value to a float.
+
+#### `int`, `integer`
+Casts the value to an integer.
+
+#### `string`
+Casts the value to a string.
+
+#### `custom`
+Casts the value to a custom type. The custom type must implement the `Mass6\FlexibleDTO\CastsProperties` interface.
+```php
+use Mass6\FlexibleDTO\DTO;
+
+class MyDTO extends DataTransferObject
+{
+    protected function allowedProperties(): array
+    {
+        return [
+            'movie',
+            'releaseDate',
+            'rating',
+        ];
+    }
+
+    protected function getRules(): array
+    {
+        return [
+            'movie' => 'required|string',
+            'releaseDate' => 'required|date',
+            'rating' => 'required|numeric',
+        ];
+    }
+
+    protected function cast(): array
+    {
+        return [
+            'movie' => 'string',
+            'releaseDate' => 'date',
+            'rating' => MyCustomType::class,
+        ];
+    }
+}
+```
+
+## Custom Cast Types
+Custom cast types can be defined by implementing the `Mass6\FlexibleDTO\CastsProperties` interface. The `cast()` method 
+should return the value cast to the appropriate type/format.
+```php
+use Mass6\FlexibleDTO\Castable;
+
+class MyCustomType implements Castable
+{
+    public function cast($value)
+    {
+        return (float) $value;
+    }
+}
+```
+
+
