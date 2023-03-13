@@ -20,11 +20,11 @@
         }
     ],
     "require": {
-        "php": "^8",
-        "illuminate/support": "^9",
-        "illuminate/filesystem": "^9",
-        "illuminate/translation": "^9",
-        "illuminate/validation": "^9"
+        "php": "^8.1",
+        "illuminate/support": "^10",
+        "illuminate/filesystem": "^10",
+        "illuminate/translation": "^10",
+        "illuminate/validation": "^10"
     },
     "require-dev": {
         "larapack/dd": "^1.1",
