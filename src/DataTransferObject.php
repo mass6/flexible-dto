@@ -55,6 +55,27 @@ abstract class DataTransferObject
     }
 
     /**
+     * Check if a property exists.
+     *
+     * @param string $property
+     * @return bool
+     */
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->data);
+    }
+
+    public function get(string $key): mixed
+    {
+        return $this->$key;
+    }
+
+    public function getOrDefault(string $key, mixed $default = null): mixed
+    {
+        return $this->has($key) ? $this->get($key) : $default;
+    }
+
+    /**
      * Returns the original input data.
      *
      * @return array

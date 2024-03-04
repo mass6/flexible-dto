@@ -87,6 +87,35 @@ class DTOTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_true_if_the_given_property_exists()
+    {
+        $data = [
+            'first_name' => 'Luca',
+            'last_name' => 'Brasi',
+        ];
+        $dto = new DefaultDTO($data);
+        $this->assertTrue($dto->has('first_name'));
+        $this->assertFalse($dto->has('middle_name'));
+    }
+
+    /** @test */
+    public function it_returns_the_property_value_using_the_get_method()
+    {
+        $data = ['first_name' => 'Luca'];
+        $dto = new DefaultDTO($data);
+        $this->assertEquals('Luca', $dto->get('first_name'));
+    }
+
+    /** @test */
+    public function it_returns_a_default_value_if_the_value_does_not_exist_when_using_the_get_or_default_method()
+    {
+        $data = ['first_name' => 'Luca'];
+        $dto = new DefaultDTO($data);
+        $this->assertNull($dto->getOrDefault('last_name'));
+        $this->assertEquals('Brasi', $dto->getOrDefault('last_name', 'Brasi'));
+    }
+
+    /** @test */
     public function it_returns_the_property_value_using_the_matching_property_name()
     {
         $data = ['first_name' => 'Luca'];
