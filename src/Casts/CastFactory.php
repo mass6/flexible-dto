@@ -131,7 +131,7 @@ class CastFactory
     }
 
     /**
-     * @param $value
+     * @param  $value
      * @return bool
      */
     protected static function isNotStringable($value): bool

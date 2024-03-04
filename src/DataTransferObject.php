@@ -161,7 +161,7 @@ abstract class DataTransferObject
     /**
      * Retrieve a whitelisted property by a given name.
      *
-     * @param $name
+     * @param  $name
      * @return string|null
      */
     protected function getWhitelistedProperty($name): ?string
@@ -184,8 +184,8 @@ abstract class DataTransferObject
     /**
      * Proxies call to a property getter method.
      *
-     * @param $name
-     * @param $arguments
+     * @param  $name
+     * @param  $arguments
      * @return mixed
      */
     public function __call($name, $arguments)
