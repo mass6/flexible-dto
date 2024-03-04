@@ -29,7 +29,7 @@
     "require-dev": {
         "larapack/dd": "^1.1",
         "phpunit/phpunit": "^10",
-        "symfony/var-dumper": "^7"
+        "symfony/var-dumper": "^6"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox"
