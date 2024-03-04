@@ -57,7 +57,7 @@ abstract class DataTransferObject
     /**
      * Check if a property exists.
      *
-     * @param  string $key
+     * @param  string  $key
      * @return bool
      */
     public function has(string $key): bool
@@ -68,7 +68,7 @@ abstract class DataTransferObject
     /**
      * Return a property if it exists, or return default.
      *
-     * @param  string $key
+     * @param  string  $key
      * @return bool
      */
     public function get(string $key): mixed
