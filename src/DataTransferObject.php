@@ -41,9 +41,12 @@ abstract class DataTransferObject
     protected array $casts = [];
 
     /**
-     * Return the whitelisted allowed properties.
+     * Return the list of whitelisted properties. If the array contains a single asterisk, all properties are allowed.
      */
-    abstract protected function allowedProperties(): array;
+    protected function allowedProperties(): array
+    {
+        return ['*'];
+    }
 
     public function __construct($data = null, ...$args)
     {
@@ -126,7 +129,9 @@ abstract class DataTransferObject
      */
     protected function initializePropertiesValues(): array
     {
-        return Collection::make($this->allowedProperties())->mapWithKeys(fn ($value) => [$value => null])->toArray();
+        $allowedProperties = $this->allowsAllProperties() ? [] : $this->allowedProperties();
+
+        return Collection::make($allowedProperties)->mapWithKeys(fn ($value) => [$value => null])->toArray();
     }
 
     /**
@@ -164,7 +169,11 @@ abstract class DataTransferObject
      */
     protected function setProperty(string $propertyName, $value): void
     {
-        $property = $this->getWhitelistedProperty($propertyName);
+        if ($this->allowsAllProperties()) {
+            $property = $propertyName;
+        } else {
+            $property = $this->getWhitelistedProperty($propertyName);
+        }
 
         if ($property) {
             $this->data[$property] = $value;
@@ -297,5 +306,15 @@ abstract class DataTransferObject
         if (isset($uses[ValidatesProperties::class])) {
             $this->validate($data);
         }
+    }
+
+    /**
+     * Determines if all properties are allowed.
+     *
+     * @return bool
+     */
+    private function allowsAllProperties(): bool
+    {
+        return $this->allowedProperties() === ['*'];
     }
 }
