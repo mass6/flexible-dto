@@ -24,7 +24,7 @@ abstract class DataTransferObject
      *
      * @var bool
      */
-    protected bool $ignoreNonPermittedProperties = false;
+    protected bool $ignoreNonPermittedProperties = true;
 
     /**
      * Indicates if the properties should be case-sensitive.
