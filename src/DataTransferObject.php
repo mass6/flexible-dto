@@ -256,7 +256,7 @@ abstract class DataTransferObject
         } elseif (array_key_exists(Str::camel($property), $this->data)) {
             return $this->getCastedValue(Str::camel($property));
         } else {
-            if (!$this->allowsAllProperties() && !in_array($property, $this->allowedProperties())) {
+            if (! $this->allowsAllProperties() && ! in_array($property, $this->allowedProperties())) {
                 throw new InvalidArgumentException($property.' is not a valid property.');
             }
         }
