@@ -66,16 +66,23 @@ abstract class DataTransferObject
     }
 
     /**
-     * Return a property if it exists, or return default.
+     * Return a property if it exists and is an allowed property.
      *
      * @param  string  $key
-     * @return bool
+     * @return mixed
      */
     public function get(string $key): mixed
     {
         return $this->$key;
     }
 
+    /**
+     * Return a property if it exists, or return default.
+     *
+     * @param  string  $key
+     * @param  mixed|null  $default
+     * @return mixed
+     */
     public function getOrDefault(string $key, mixed $default = null): mixed
     {
         return $this->has($key) ? $this->get($key) : $default;
