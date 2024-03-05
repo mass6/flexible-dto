@@ -40,12 +40,9 @@ abstract class DataTransferObject
      */
     protected array $casts = [];
 
-    /**
-     * Return the list of whitelisted properties. If the array contains a single asterisk, all properties are allowed.
-     */
-    protected function allowedProperties(): array
+    public static function make($data = null, ...$args): static
     {
-        return ['*'];
+        return new static($data, ...$args);
     }
 
     public function __construct($data = null, ...$args)
@@ -55,6 +52,14 @@ abstract class DataTransferObject
             $this->setPropertyValuesFromInput($data, $args);
             $this->handleValidation($this->data);
         }
+    }
+
+    /**
+     * Return the list of whitelisted properties. If the array contains a single asterisk, all properties are allowed.
+     */
+    protected function allowedProperties(): array
+    {
+        return ['*'];
     }
 
     /**

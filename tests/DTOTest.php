@@ -23,6 +23,16 @@ class DTOTest extends TestCase
     }
 
     /** @test */
+    public function it_constructs_a_dto_using_the_static_make_method()
+    {
+        $data = [
+            'first_name' => 'Luca',
+            'last_name' => 'Brasi',
+        ];
+        $this->assertInstanceOf(DataTransferObject::class, DefaultDTO::make($data));
+    }
+
+    /** @test */
     public function it_constructs_a_dto_from_parameters()
     {
         $dto = new DefaultDTO('Luca', 'Brasi', 'Luca Brasi', 44);
