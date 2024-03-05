@@ -69,26 +69,15 @@ abstract class DataTransferObject
     }
 
     /**
-     * Return a property if it exists and is an allowed property.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    public function get(string $key): mixed
-    {
-        return $this->$key;
-    }
-
-    /**
      * Return a property if it exists, or return default.
      *
      * @param  string  $key
      * @param  mixed|null  $default
      * @return mixed
      */
-    public function getOrDefault(string $key, mixed $default = null): mixed
+    public function get(string $key, mixed $default = null): mixed
     {
-        return $this->has($key) ? $this->get($key) : $default;
+        return $this->has($key) ? $this->$key : $default;
     }
 
     /**
@@ -262,7 +251,7 @@ abstract class DataTransferObject
         } elseif (array_key_exists(Str::camel($property), $this->data)) {
             return $this->getCastedValue(Str::camel($property));
         } else {
-            if (! in_array($property, $this->allowedProperties())) {
+            if (!$this->allowsAllProperties() && !in_array($property, $this->allowedProperties())) {
                 throw new InvalidArgumentException($property.' is not a valid property.');
             }
         }

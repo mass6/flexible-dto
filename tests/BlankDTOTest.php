@@ -4,6 +4,7 @@ namespace Mass6\FlexibleDTO\Tests;
 
 use Mass6\FlexibleDTO\DataTransferObject;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\BlankDTO;
+use Mass6\FlexibleDTO\Tests\SampleDTOs\DefaultDTO;
 use PHPUnit\Framework\TestCase;
 
 class BlankDTOTest extends TestCase
@@ -43,5 +44,14 @@ class BlankDTOTest extends TestCase
             'first_name' => 'Luca',
             'last_name' => 'Brasi',
         ], $dto->getAll());
+    }
+
+    /** @test */
+    public function it_returns_a_default_value_if_the_value_does_not_exist_when_using_the_get_method()
+    {
+        $data = ['first_name' => 'Luca'];
+        $dto = new BlankDTO($data);
+        $this->assertNull($dto->get('last_name'));
+        $this->assertEquals('Brasi', $dto->get('last_name', 'Brasi'));
     }
 }

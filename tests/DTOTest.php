@@ -107,12 +107,12 @@ class DTOTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_a_default_value_if_the_value_does_not_exist_when_using_the_get_or_default_method()
+    public function it_returns_a_default_value_if_the_value_does_not_exist_when_using_the_get_method()
     {
         $data = ['first_name' => 'Luca'];
         $dto = new DefaultDTO($data);
-        $this->assertNull($dto->getOrDefault('last_name'));
-        $this->assertEquals('Brasi', $dto->getOrDefault('last_name', 'Brasi'));
+        $this->assertNull($dto->get('last_name'));
+        $this->assertEquals('Brasi', $dto->get('last_name', 'Brasi'));
     }
 
     /** @test */
