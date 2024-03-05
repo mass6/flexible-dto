@@ -4,7 +4,6 @@ namespace Mass6\FlexibleDTO\Tests;
 
 use Mass6\FlexibleDTO\DataTransferObject;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\BlankDTO;
-use Mass6\FlexibleDTO\Tests\SampleDTOs\DefaultDTO;
 use PHPUnit\Framework\TestCase;
 
 class BlankDTOTest extends TestCase
