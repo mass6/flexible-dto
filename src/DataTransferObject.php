@@ -134,7 +134,7 @@ abstract class DataTransferObject
      * @param  mixed  $data
      * @param  array  $args
      */
-    protected function setPropertyValuesFromInput($data, array $args)
+    protected function setPropertyValuesFromInput(mixed $data, array $args): void
     {
         if (is_iterable($data) && empty($args)) {
             $this->setPropertiesFromIterable($data);
@@ -148,7 +148,7 @@ abstract class DataTransferObject
      *
      * @param  array  $data
      */
-    protected function setPropertiesFromIterable(iterable $data)
+    protected function setPropertiesFromIterable(iterable $data): void
     {
         collect($data)->each(function ($value, $propertyName) {
             $this->setProperty($propertyName, $value);
@@ -161,7 +161,7 @@ abstract class DataTransferObject
      * @param  string  $propertyName
      * @param  mixed  $value
      */
-    protected function setProperty(string $propertyName, $value): void
+    protected function setProperty(string $propertyName, mixed $value): void
     {
         if ($this->allowsAllProperties()) {
             $property = $propertyName;
@@ -180,7 +180,7 @@ abstract class DataTransferObject
      *
      * @param  array  $arguments
      */
-    protected function setDataFromArguments(array $arguments)
+    protected function setDataFromArguments(array $arguments): void
     {
         $allowedProperties = $this->allowedProperties();
         $allowedPropertiesCount = count($allowedProperties);
@@ -268,7 +268,7 @@ abstract class DataTransferObject
      * @param  string  $property
      * @return array|\Carbon\Carbon|\Illuminate\Support\Collection|mixed|string|null
      */
-    protected function getCastedValue(string $property)
+    protected function getCastedValue(string $property): mixed
     {
         $value = $this->data[$property];
 
@@ -283,7 +283,7 @@ abstract class DataTransferObject
      * @param  null  $type
      * @return array|\Carbon\Carbon|\Illuminate\Support\Collection|mixed|string|null
      */
-    protected function castValue(string $property, $value, $type = null)
+    protected function castValue(string $property, $value, $type = null): mixed
     {
         return CastFactory::make($property, $value, $type);
     }
@@ -293,7 +293,7 @@ abstract class DataTransferObject
      *
      * @param  iterable  $data
      */
-    protected function handleValidation(iterable $data)
+    protected function handleValidation(iterable $data): void
     {
         $uses = array_flip(class_uses(static::class));
 
