@@ -6,6 +6,8 @@ use Mass6\FlexibleDTO\DataTransferObject;
 
 class DefaultDTO extends DataTransferObject
 {
+    protected bool $ignoreNonPermittedProperties = false;
+
     protected function allowedProperties(): array
     {
         return [

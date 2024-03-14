@@ -74,7 +74,8 @@ class DTOTest extends TestCase
         $data = ['middle_name' => 'Bruiser'];
 
         try {
-            $dto = new DefaultDTO($data);
+            new DefaultDTO($data);
+            $this->fail('An exception should have been thrown.');
         } catch (InvalidArgumentException $e) {
             $this->assertEquals('middle_name is not an allowed property.', $e->getMessage());
         }
