@@ -70,7 +70,7 @@ abstract class DataTransferObject
      */
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->data);
+        return Arr::has($this->data, $key);
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class DataTransferObject
      */
     public function get(string $key, mixed $default = null): mixed
     {
-        return $this->has($key) ? $this->$key : $default;
+        return Arr::get($this->data, $key, $default);
     }
 
     /**
@@ -249,14 +249,14 @@ abstract class DataTransferObject
      */
     public function __get(string $property)
     {
-        if (array_key_exists($property, $this->data)) {
+        if (Arr::has($this->data, $property)) {
             return $this->getCastedValue($property);
-        } elseif (array_key_exists(Str::snake($property), $this->data)) {
+        } elseif (Arr::has($this->data, Str::snake($property))) {
             return $this->getCastedValue(Str::snake($property));
-        } elseif (array_key_exists(Str::camel($property), $this->data)) {
+        } elseif (Arr::has($this->data, Str::camel($property))) {
             return $this->getCastedValue(Str::camel($property));
         } else {
-            if (! $this->allowsAllProperties() && ! in_array($property, $this->allowedProperties())) {
+            if (! $this->allowsAllProperties() && ! Arr::has($this->allowedProperties(), $property)) {
                 throw new InvalidArgumentException($property.' is not a valid property.');
             }
         }

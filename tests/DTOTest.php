@@ -197,4 +197,22 @@ class DTOTest extends TestCase
             'age' => 35,
         ], $dto->getAll());
     }
+
+    /** @test */
+    public function it_accepts_nested_properties()
+    {
+        $data = [
+            'date' => [
+                'from' => '2021-01-01',
+                'to' => '2021-12-31',
+            ],
+        ];
+        $dto = new CaseInsensitiveDTO($data);
+        $this->assertEquals([
+            'date' => [
+                'from' => '2021-01-01',
+                'to' => '2021-12-31',
+            ],
+        ], $dto->getAll());
+    }
 }

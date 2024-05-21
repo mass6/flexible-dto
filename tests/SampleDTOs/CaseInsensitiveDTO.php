@@ -15,6 +15,10 @@ class CaseInsensitiveDTO extends DataTransferObject
             'lastName',
             'full name',
             'age',
+            'date' => [
+                'from',
+                'to',
+            ],
         ];
     }
 }
