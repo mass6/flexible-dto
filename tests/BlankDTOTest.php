@@ -4,11 +4,12 @@ namespace Mass6\FlexibleDTO\Tests;
 
 use Mass6\FlexibleDTO\DataTransferObject;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\BlankDTO;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class BlankDTOTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_constructs_a_dto_from_an_array()
     {
         $data = [
@@ -18,7 +19,7 @@ class BlankDTOTest extends TestCase
         $this->assertInstanceOf(DataTransferObject::class, new BlankDTO($data));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_object_data_as_an_array()
     {
         $data = [
@@ -31,7 +32,7 @@ class BlankDTOTest extends TestCase
         $this->assertEquals($data, $dto->getAll());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_all_set_values()
     {
         $data = [
@@ -45,7 +46,7 @@ class BlankDTOTest extends TestCase
         ], $dto->getAll());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_a_default_value_if_the_value_does_not_exist_when_using_the_get_method()
     {
         $data = ['first_name' => 'Luca'];

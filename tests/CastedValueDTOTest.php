@@ -7,11 +7,12 @@ use DateTime;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\CastedValueDTO;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CastedValueDTOTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_cast_a_property_value_as_a_boolean()
     {
         $data = ['released' => '0'];
@@ -20,7 +21,7 @@ class CastedValueDTOTest extends TestCase
         $this->assertFalse($dto->released);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_cast_a_valid_property_value_date_to_a_carbon_object()
     {
         $data = ['released_on' => '1972-12-26'];
@@ -28,7 +29,7 @@ class CastedValueDTOTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $dto->releasedOn());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_the_property_value_date_format_is_invalid()
     {
         $data = ['released_on' => 'invalid_date'];
@@ -41,7 +42,7 @@ class CastedValueDTOTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_cast_a_property_value_to_an_illuminate_collection()
     {
         $data = [
@@ -58,7 +59,7 @@ class CastedValueDTOTest extends TestCase
         ], $dto->actors()->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_cast_an_object_property_value_to_an_array()
     {
         $characters = [
@@ -73,7 +74,7 @@ class CastedValueDTOTest extends TestCase
         $this->assertEquals($characters, $dto->characters);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_cast_a_property_value_to_a_integer()
     {
         $data = ['oscars' => '3'];
@@ -82,7 +83,7 @@ class CastedValueDTOTest extends TestCase
         $this->assertEquals(3, $dto->oscars);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_cast_a_property_value_to_a_string()
     {
         $data = ['dvd_year' => 1998];
@@ -91,7 +92,7 @@ class CastedValueDTOTest extends TestCase
         $this->assertEquals('1998', $dto->dvd_year);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_the_property_value_cannot_be_cast_to_a_string()
     {
         $data = ['dvd_year' => new DateTime()];
@@ -104,7 +105,7 @@ class CastedValueDTOTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_cast_a_property_value_using_a_custom_cast_object()
     {
         $data = ['title' => 'The Godfather'];

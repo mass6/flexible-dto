@@ -8,11 +8,12 @@ use Mass6\FlexibleDTO\DataTransferObject;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\CaseInsensitiveDTO;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\DefaultDTO;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\IgnoreNonPermittedPropertiesDTO;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DTOTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_constructs_a_dto_from_an_array()
     {
         $data = [
@@ -22,7 +23,7 @@ class DTOTest extends TestCase
         $this->assertInstanceOf(DataTransferObject::class, new DefaultDTO($data));
     }
 
-    /** @test */
+    #[Test]
     public function it_constructs_a_dto_using_the_static_make_method()
     {
         $data = [
@@ -32,7 +33,7 @@ class DTOTest extends TestCase
         $this->assertInstanceOf(DataTransferObject::class, DefaultDTO::make($data));
     }
 
-    /** @test */
+    #[Test]
     public function it_constructs_a_dto_from_parameters()
     {
         $dto = new DefaultDTO('Luca', 'Brasi', 'Luca Brasi', 44);
@@ -45,7 +46,7 @@ class DTOTest extends TestCase
         ], $dto->getAll());
     }
 
-    /** @test */
+    #[Test]
     public function it_constructs_a_dto_from_a_collection()
     {
         $data = Collection::make([
@@ -55,7 +56,7 @@ class DTOTest extends TestCase
         $this->assertInstanceOf(DataTransferObject::class, new DefaultDTO($data));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_object_data_as_an_array()
     {
         $data = [
@@ -68,7 +69,7 @@ class DTOTest extends TestCase
         $this->assertEquals($data, $dto->getAll());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_given_a_property_that_is_now_allowed()
     {
         $data = ['middle_name' => 'Bruiser'];
@@ -81,7 +82,7 @@ class DTOTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_values_if_properties_is_not_set()
     {
         $data = [
@@ -97,7 +98,7 @@ class DTOTest extends TestCase
         ], $dto->getAll());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_true_if_the_given_property_exists()
     {
         $data = [
@@ -109,7 +110,7 @@ class DTOTest extends TestCase
         $this->assertFalse($dto->has('middle_name'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_property_value_using_the_get_method()
     {
         $data = ['first_name' => 'Luca'];
@@ -117,7 +118,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Luca', $dto->get('first_name'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_a_default_value_if_the_value_does_not_exist_when_using_the_get_method()
     {
         $data = ['first_name' => 'Luca'];
@@ -126,7 +127,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Brasi', $dto->get('last_name', 'Brasi'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_property_value_using_the_matching_property_name()
     {
         $data = ['first_name' => 'Luca'];
@@ -134,7 +135,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Luca', $dto->first_name);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_property_value_using_the_camel_case_property_name()
     {
         $data = ['first_name' => 'Luca'];
@@ -142,7 +143,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Luca', $dto->firstName);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_property_value_using_the_snake_case_property_name()
     {
         $data = ['fullName' => 'Luca Brasi'];
@@ -150,7 +151,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Luca Brasi', $dto->full_name);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_property_value_using_a_method()
     {
         $data = ['first_name' => 'Luca'];
@@ -158,7 +159,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Luca', $dto->firstName());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_property_value_using_a_getter_method()
     {
         $data = ['first_name' => 'Luca'];
@@ -166,7 +167,7 @@ class DTOTest extends TestCase
         $this->assertEquals('Luca', $dto->getFirstName());
     }
 
-    /** @test */
+    #[Test]
     public function it_ignores_non_permitted_properties()
     {
         $allowed = [
@@ -180,7 +181,7 @@ class DTOTest extends TestCase
         $this->assertEquals($allowed, $dto->getAll());
     }
 
-    /** @test */
+    #[Test]
     public function it_accepts_case_insensitive_properties()
     {
         $data = [

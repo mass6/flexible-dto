@@ -5,11 +5,12 @@ namespace Mass6\FlexibleDTO\Tests;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Mass6\FlexibleDTO\Tests\SampleDTOs\ValidatedDTO;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ValidatedDTOTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_validates_properties()
     {
         $data = Collection::make(['title' => '']);
@@ -22,7 +23,7 @@ class ValidatedDTOTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_after_validation_hooks()
     {
         $data = Collection::make(['title' => 'Fight Club']);
