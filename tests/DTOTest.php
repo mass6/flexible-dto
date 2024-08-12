@@ -99,6 +99,15 @@ class DTOTest extends TestCase
     }
 
     #[Test]
+    public function it_returns_null_values_if_properties_is_not_set_but_allowed_when_using_magic_methods()
+    {
+        $dto = new DefaultDTO(['first_name' => 'Luca']);
+        $this->assertNull($dto->age);
+        $this->assertNull($dto->age());
+        $this->assertNull($dto->getAge());
+    }
+
+    #[Test]
     public function it_returns_true_if_the_given_property_exists()
     {
         $data = [
