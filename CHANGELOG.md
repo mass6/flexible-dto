@@ -2,6 +2,12 @@
 
 All notable changes to `flexible-dto` will be documented in this file
 
+## 4.12.0 - 2026-11-17
+
+-  Add support for Laravel 12 and 13 (`illuminate/*` `^11.0|^12.0|^13.0`)
+-  Allow PHPUnit 12/13 and symfony/var-dumper 8 for development
+-  Test against PHP 8.2–8.5 and Laravel 11–13 in CI
+
 ## 4.7.0 - 2024-03-07
 
 -  Add type-hinting where missing
